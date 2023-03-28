@@ -1,0 +1,28 @@
+@import 'abstracts/constants';
+
+.consultation {
+  &__title {
+    text-align: center;
+    margin: $margin-content 0 !important;
+    color: $dark-text;
+  }
+  &__content {
+    .content {
+      &__form {
+        display: flex;
+        flex-direction: column;
+        .form {
+          &__item {
+            margin-bottom: 5px;
+            &--slide {
+              margin-bottom: $margin-content;
+            }
+          }
+          &__button {
+            margin: 5px 0;
+          }
+        }
+      }
+    }
+  }
+}

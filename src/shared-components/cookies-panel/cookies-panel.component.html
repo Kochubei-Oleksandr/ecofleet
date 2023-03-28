@@ -1,0 +1,22 @@
+<div *ngIf="!isAcceptedCookies()" class="cookies-panel">
+  <div class="cookies-panel__content content">
+    <div class="content__text">
+      <p>
+        <span>{{'COOKIES_PANEL_MAIN_TEXT' | translate}} </span>
+        <a target="_blank" class="content__link" href="https://www.facebook.com/business/learn/facebook-ads-pixel">Facebook Pixel</a>,
+        <a target="_blank" class="content__link" href="https://analytics.google.com">Google Analytics</a>
+<!--        <a target="_blank" class="content__link" href="https://metrika.yandex.ru">Yandex.Metrika</a>.-->
+      </p>
+      <p>
+        <span>{{'READ_MORE_IN_THE' | translate}}</span>
+        <a target="_blank" class="content__link" [href]="privacyPolicy">
+          {{'PRIVACY_POLICY' | translate}}.
+        </a>
+        <span>{{'AGREE_WITH_USING_SITE' | translate}} </span>
+      </p>
+    </div>
+    <button class="content__btn" (click)="acceptCookies()" mat-stroked-button color="primary">
+      {{'OK' | translate}}
+    </button>
+  </div>
+</div>

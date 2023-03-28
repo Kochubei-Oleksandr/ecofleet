@@ -1,0 +1,22 @@
+@import 'abstracts/constants';
+
+.language-switching {
+  display: flex;
+  align-items: center;
+  .lang {
+    &__icon {
+      cursor: pointer;
+      text-transform: uppercase;
+      color: $primary-color;
+      &:hover {
+        color: $primary-darker-color;
+      }
+    }
+  }
+}
+.lang--btn-text {
+  text-transform: uppercase;
+}
+.lang--active {
+  color: $primary-color;
+}

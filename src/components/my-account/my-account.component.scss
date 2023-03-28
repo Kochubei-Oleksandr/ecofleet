@@ -1,0 +1,105 @@
+@import 'abstracts/constants';
+
+.personal-information {
+  width: 100%;
+  max-width: $container-middle-width;
+  margin: 0 auto;
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 $margin-side $margin-main ;
+    .container {
+      &__header {
+        margin-bottom: $margin-side;
+        &--wrapper { }
+        font: 500 24px/32px $font-name;
+        text-align: center;
+      }
+      &__content {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        .content {
+          &__first-section > * {
+            margin-top: $margin-content !important;
+          }
+          &__first-section {
+            display: flex;
+            flex-direction: column;
+            margin: $margin-content;
+            width: 350px;
+            min-width: 300px;
+            .first-section {
+              &__form {
+                display: flex;
+                flex-wrap: wrap;
+                .form {
+                  &__fieldset {
+                    width: 100%;
+                  }
+                  &__item {
+                    display: flex;
+                    width: 100%;
+                  }
+                  &__btn {
+                    &--dirty {
+                      color: $success-color;
+                    }
+                    &--wrapper {
+                      width: 100%;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                      position: relative;
+                    }
+                    &--hidden {
+                      visibility: hidden;
+                    }
+                    margin-top: $margin-content;
+                    max-height: 40px;
+                    width: 100%;
+                  }
+                }
+              }
+            }
+          }
+          &__second-section {
+            display: flex;
+            flex-direction: column;
+            margin: $margin-content;
+            width: 350px;
+            min-width: 300px;
+            .second-section {
+              &__support {
+                margin-top: $margin-content !important;
+                margin-left: 5px !important;
+              }
+              &__btn-wrapper {
+                display: flex;
+                flex-wrap: wrap;
+                .btn-wrapper {
+                  &__btn {
+                    width: 100%;
+                    margin: $margin-content 5px;
+                    &--hidden {
+                      visibility: hidden;
+                    }
+                    &--spinner {
+                      position: absolute;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  ::ng-deep .mat-form-field-wrapper {
+    width: 100%;
+  }
+}
+

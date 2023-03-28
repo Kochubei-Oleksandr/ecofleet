@@ -1,0 +1,162 @@
+@import 'abstracts/constants';
+
+.users {
+  width: 100%;
+  max-width: $container-middle-width;
+  margin: 0 auto;
+  &__container {
+    position: relative;
+    margin: $margin-side $margin-side $margin-main;
+    .container {
+      &__loading-shade {
+        background: rgba(0, 0, 0, 0.15);
+      }
+      &__top > * {
+        margin: 0 $margin-content;
+      }
+      &__top {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        background-color: $background-color-darker;
+        .top {
+          &__title {
+            font: 500 24px/32px $font-name;
+            margin-left: $margin-side;
+            margin-bottom: 0;
+            @media screen and (min-width: $mobile-size-screen) {
+              white-space: nowrap;
+            }
+          }
+          &__select {
+            ::ng-deep .mat-select-value {
+              color: $primary-darker-color;
+            }
+            ::ng-deep .mat-form-field-label {
+              color: $dark-text;
+            }
+          }
+          &__icon-get-all-data {
+            cursor: pointer;
+          }
+          &__add-new-data-btn {
+            color: $dark-text;
+          }
+
+          &__filter {
+            display: flex;
+            background-color: $light-text;
+            border-radius: 50px;
+            padding: 0 $margin-side;
+            margin-top: $margin-content;
+            margin-bottom: $margin-content;
+            margin-right: $margin-side;
+            flex: 1;
+            min-width: 100px;
+            .filter {
+              &__icon {
+                &:hover {
+                  color: $dark-text-lighter;
+                }
+                padding: $margin-content 0;
+                margin-right: $margin-content;
+              }
+              &__input {
+                width: 100%;
+                border: none;
+
+                &:focus {
+                  outline: none;
+                }
+              }
+            }
+          }
+        }
+      }
+      &__form {
+        position: relative;
+        width: 100%;
+        .form {
+          &__table {
+            position: relative;
+            .table {
+              &__no-data-row {
+                display: flex;
+                justify-content: center;
+                padding: $margin-side;
+              }
+              &__wrapper {
+                width: 100%;
+              }
+              &__th {
+                &--italic {
+                  font-style: italic;
+                }
+              }
+              &__td {
+                @media screen and (max-width: $mobile-size-screen) {
+                  border-bottom: 1px dotted $border-color;
+                }
+              }
+              &__th--id, &__td--id {
+                @media screen and (min-width: $mobile-size-screen) {
+                  max-width: 50px;
+                }
+              }
+              &__th--btn, &__td--btn {
+                position: relative;
+                @media screen and (min-width: $mobile-size-screen) {
+                  max-width: 116px;
+                }
+              }
+              &__form-field {
+                width: 100%;
+              }
+              &__button {
+                display: flex;
+                flex-wrap: wrap;
+                &--dirty {
+                  color: $success-color !important;
+                }
+                .button {
+                  &__wrapper {
+                    display: flex;
+                    flex-wrap: wrap;
+                    align-items: center;
+                    justify-content: center;
+                  }
+                }
+              }
+              &__element-row {
+              }
+              &__mobile-label {
+                display: none;
+                width: 100%;
+                @media screen and (max-width: $mobile-size-screen) {
+                  display: inline-block;
+                  font-weight: 500;
+                  margin-right: $margin-content;
+                  max-width: 150px;
+                }
+                @media screen and (max-width: $mobile-size-small-screen) {
+                  max-width: 100px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  ::ng-deep .mat-row, .mat-header-row {
+    width: $container-middle-width - 20px !important;
+    min-width: $container-middle-width - 20px !important;
+  }
+  ::ng-deep .mat-select {
+    width: 100% !important;
+  }
+  a,p,h1,h2,h3,h4,h5,h6,span,mat-cell {
+    color: $dark-text !important;
+  }
+}
+

@@ -1,0 +1,56 @@
+<div class="adding-new-role-dialog">
+    <p class="adding-new-role-dialog__title">
+        {{'FROM_FOR_ADDING_NEW_ROLE' | translate}}
+    </p>
+    <mat-dialog-content class="adding-new-role-dialog__content content">
+        <form class="content__form form" [formGroup]="roleFormGroup">
+            <mat-form-field class="form__item">
+                <mat-label>{{'NAME' | translate}}</mat-label>
+                <input required matInput formControlName="name" maxlength="50">
+                <mat-hint align="end">
+                    {{roleFormGroup.get('name').value?.length}} / 50
+                </mat-hint>
+                <mat-error *ngIf="roleFormGroup.hasError('maxlength', 'name')">
+                  {{ 'MAX_LENGTH' | translate:{number: 50} }}
+                </mat-error>
+                <mat-error *ngIf="roleFormGroup.hasError('required', 'name')">
+                  {{ 'REQUIRED_ERROR' | translate }}
+                </mat-error>
+                <mat-error *ngIf="serverValidationForm.isServerValidationError('name')">
+                    {{ serverValidationForm.getServerValidationError('name') }}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="form__item">
+                <mat-label>{{'DESCRIPTION' | translate}}</mat-label>
+                <input matInput formControlName="description" maxlength="255">
+                <mat-hint align="end">
+                    {{roleFormGroup.get('description').value?.length}} / 255
+                </mat-hint>
+                <mat-error *ngIf="roleFormGroup.hasError('maxlength', 'description')">
+                  {{ 'MAX_LENGTH' | translate:{number: 255} }}
+                </mat-error>
+                <mat-error *ngIf="serverValidationForm.isServerValidationError('description')">
+                    {{ serverValidationForm.getServerValidationError('description') }}
+                </mat-error>
+            </mat-form-field>
+            <mat-slide-toggle class="form__item form__item--slide" color="primary" formControlName="is_registration_role">
+              {{'IS_REGISTRATION_ROLE' | translate}}
+            </mat-slide-toggle>
+
+
+            <button
+              *ngIf="isRequestCompleted(); else spinner"
+              (click)="addNewRole()"
+              mat-stroked-button
+              color="primary"
+              class="form__button"
+              [disabled]="!roleFormGroup.valid"
+            >
+                {{'ADD_NEW_ROLE' | translate}}
+            </button>
+            <ng-template #spinner>
+                <app-progress-spinner></app-progress-spinner>
+            </ng-template>
+        </form>
+    </mat-dialog-content>
+</div>

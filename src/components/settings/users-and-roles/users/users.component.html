@@ -1,0 +1,214 @@
+<div class="users">
+  <div class="spinner" *ngIf="!tableDataSource && !isRequestCompleted()">
+    <app-progress-spinner [diameter]="200"></app-progress-spinner>
+  </div>
+
+  <div *ngIf="tableDataSource" class="users__container container mat-elevation-z8">
+    <div class="spinner container__loading-shade" *ngIf="!isRequestCompleted()">
+      <app-progress-spinner [diameter]="100"></app-progress-spinner>
+    </div>
+    <div class="container__top top">
+      <h2 class="top__title">
+        {{'USERS' | translate}}
+      </h2>
+      <mat-form-field class="top__select">
+        <mat-label>{{'ROLES' | translate}}</mat-label>
+        <mat-select (selectionChange)="getUsers()" [(ngModel)]="filterByRoles" multiple>
+          <mat-select-trigger>
+            {{getFilterSelectTriggerRoleName()}}
+            <span *ngIf="filterByRoles.length > 1">
+                    (+{{filterByRoles.length - 1}})
+                  </span>
+          </mat-select-trigger>
+          <mat-option *ngFor="let item of roles" [value]="item.id">
+            {{item.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-slide-toggle color="primary" [(ngModel)]="displayedIsArchivedUsers" (ngModelChange)="getUsers()">
+        {{'SHOW_ARCHIVED_USERS' | translate}}
+      </mat-slide-toggle>
+      <button class="top__add-new-data-btn" (click)="openAddingNewUserDialog()" mat-stroked-button>
+        {{'ADD_NEW_USER' | translate}}
+      </button>
+      <mat-icon
+        (click)="resetFiltersAndGetAllData()"
+        class="top__icon-get-all-data"
+        matTooltip="{{'RESET_FILTERS_AND_DISPLAY_ALL_DATA' | translate}}"
+      >
+        settings_backup_restore
+      </mat-icon>
+      <div class="top__filter filter">
+        <mat-icon class="filter__icon">search</mat-icon>
+        <input
+          class="filter__input"
+          [(ngModel)]="filterByString"
+          (keyup)="getUsers()"
+          placeholder="{{'SEARCH'| translate}}"
+        >
+      </div>
+    </div>
+    <form *ngIf="tableDataSource" class="container__form form" [formGroup]="usersFormGroup">
+      <mat-table class="form__table table" matSort formArrayName="users" (matSortChange)="sortUsersData($event)" [dataSource]="tableDataSource">
+        <mat-header-row  *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+        <mat-row  class="table__element-row" *matRowDef="let row; let i = index; columns: columnsToDisplay;"></mat-row>
+
+        <tr class="table__no-data-row" *matNoDataRow>
+          <td colspan="6">{{'NO_DATA_MATCHING_THE_FILTER' | translate}} "{{filterByString}}"</td>
+        </tr>
+
+        <ng-container matColumnDef="id">
+          <mat-header-cell mat-sort-header class="table__th table__th--id" *matHeaderCellDef>
+            {{'ID' | translate}}
+          </mat-header-cell>
+          <mat-cell class="table__td table__td--id" *matCellDef="let row">
+            <span class="table__mobile-label">{{'ID' | translate}}:</span>
+            {{row.id}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <mat-header-cell mat-sort-header class="table__th" *matHeaderCellDef>
+            {{'NAME' | translate}}
+          </mat-header-cell>
+          <mat-cell class="table__td" *matCellDef="let row; let cellIndex = index" [formGroupName]="cellIndex">
+            <span class="table__mobile-label">{{'NAME' | translate}}:</span>
+            <mat-form-field class="table__form-field">
+              <mat-label>{{'NAME' | translate}}</mat-label>
+              <input matInput formControlName="name" maxlength="100">
+              <mat-hint align="end">
+                {{getIterationControl(cellIndex).get('name').value?.length}} / 100
+              </mat-hint>
+              <mat-error *ngIf="getIterationControl(cellIndex).hasError('required', 'name')">
+                {{ 'REQUIRED_ERROR' | translate }}
+              </mat-error>
+              <mat-error *ngIf="getIterationControl(cellIndex).hasError('maxlength', 'name')">
+                {{ 'MAX_LENGTH' | translate:{number: 100} }}
+              </mat-error>
+              <mat-error *ngIf="serverValidationForm.isServerValidationError('name')">
+                {{ serverValidationForm.getServerValidationError('name') }}
+              </mat-error>
+            </mat-form-field>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="roles">
+          <mat-header-cell mat-sort-header class="table__th" *matHeaderCellDef>
+            {{'ROLES' | translate}}
+          </mat-header-cell>
+          <mat-cell class="table__td" *matCellDef="let row; let cellIndex = index" [formGroupName]="cellIndex">
+            <span class="table__mobile-label">{{'ROLES' | translate}}:</span>
+            <mat-form-field class="table__form-field form-field">
+              <mat-label>{{'ROLES' | translate}}</mat-label>
+              <mat-select formControlName="user_roles_ids" multiple>
+                <mat-select-trigger>
+                  {{getUserSelectTriggerRoleName(cellIndex)}}
+                  <span *ngIf="getIterationControl(cellIndex).get('user_roles_ids').value.length > 1" class="form-field__additional-selection">
+                (+{{getIterationControl(cellIndex).get('user_roles_ids').value.length - 1}})
+              </span>
+                </mat-select-trigger>
+                <mat-option *ngFor="let item of roles" [value]="item.id">
+                  {{item.name}}
+                </mat-option>
+                <mat-error *ngIf="getIterationControl(cellIndex).hasError('required', 'email')">
+                  {{ 'REQUIRED_ERROR' | translate }}
+                </mat-error>
+              </mat-select>
+            </mat-form-field>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <mat-header-cell mat-sort-header class="table__th" *matHeaderCellDef>
+            {{'EMAIL' | translate}}
+          </mat-header-cell>
+          <mat-cell class="table__td" *matCellDef="let row; let cellIndex = index" [formGroupName]="cellIndex">
+            <span class="table__mobile-label">{{'EMAIL' | translate}}:</span>
+            <mat-form-field class="table__form-field">
+              <mat-label>{{'EMAIL' | translate}}</mat-label>
+              <input matInput formControlName="email" maxlength="100">
+              <mat-hint align="end">
+                {{getIterationControl(cellIndex).get('email').value?.length}} / 100
+              </mat-hint>
+              <mat-error *ngIf="getIterationControl(cellIndex).hasError('required', 'email')">
+                {{ 'REQUIRED_ERROR' | translate }}
+              </mat-error>
+              <mat-error *ngIf="getIterationControl(cellIndex).hasError('maxlength', 'email')">
+                {{ 'MAX_LENGTH' | translate:{number: 100} }}
+              </mat-error>
+              <mat-error *ngIf="serverValidationForm.isServerValidationError('email')">
+                {{ serverValidationForm.getServerValidationError('email') }}
+              </mat-error>
+            </mat-form-field>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <mat-header-cell class="table__th--btn" *matHeaderCellDef> {{'ACTIONS' | translate}} </mat-header-cell>
+          <mat-cell class="table__td--btn" *matCellDef="let row; let cellIndex = index" [formGroupName]="cellIndex">
+            <span class="table__mobile-label">{{'ACTIONS' | translate}}:</span>
+            <div *ngIf="!displayedIsArchivedUsers; else bntForDeletedUsers" class="table__button button">
+              <div class="button__wrapper">
+                <div *ngIf="isSaveItemRequestInProcess(cellIndex); else buttonTable">
+                  <app-progress-spinner [diameter]="20"></app-progress-spinner>
+                </div>
+                <ng-template #buttonTable>
+                  <button
+                    (click)="updateTableElement(cellIndex)"
+                    mat-icon-button color="primary"
+                    matTooltip="{{'SAVE' | translate}}"
+                    [disabled]="isSaveItemRequestInProcess(cellIndex)"
+                  >
+                    <mat-icon [class]="{'table__button--dirty': isFormControlDataDirty(cellIndex)}">
+                      save
+                    </mat-icon>
+                  </button>
+                </ng-template>
+              </div>
+              <div class="button__wrapper">
+                <button
+                  (click)="archiveUser(cellIndex)"
+                  mat-icon-button color="primary"
+                  matTooltip="{{'ARCHIVE' | translate}}"
+                  [disabled]="isSaveItemRequestInProcess(cellIndex)"
+                >
+                  <mat-icon>delete_sweep</mat-icon>
+                </button>
+              </div>
+            </div>
+            <ng-template #bntForDeletedUsers>
+              <div class="button__wrapper">
+                <button
+                  (click)="restoreUser(cellIndex)"
+                  mat-icon-button color="primary"
+                  matTooltip="{{'RESTORE' | translate}}"
+                  [disabled]="isSaveItemRequestInProcess(cellIndex)"
+                >
+                  <mat-icon>restore_from_trash</mat-icon>
+                </button>
+              </div>
+              <div class="button__wrapper">
+                <button
+                  (click)="deleteUserForever(cellIndex)"
+                  mat-icon-button color="primary"
+                  matTooltip="{{'DELETE_FOREVER' | translate}}"
+                  [disabled]="isSaveItemRequestInProcess(cellIndex)"
+                >
+                  <mat-icon>delete_forever</mat-icon>
+                </button>
+              </div>
+            </ng-template>
+          </mat-cell>
+        </ng-container>
+      </mat-table>
+
+      <mat-paginator
+        [showFirstLastButtons]="true"
+        [length]="paginatorTotalCount"
+        [pageIndex]="paginatorPageIndex"
+        [pageSize]="paginatorPageSize"
+        [pageSizeOptions]="paginatorPageSizeOptions"
+        (page)="paginateUsersData($event)"
+      ></mat-paginator>
+    </form>
+  </div>
+</div>

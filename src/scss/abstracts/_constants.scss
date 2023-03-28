@@ -1,0 +1,117 @@
+$mobile-size-screen: 720px;
+$mobile-size-small-screen: 400px;
+
+//margins
+$margin-main: var(--my-margin-main, 30px);
+$margin-side: var(--my-margin-side, 20px);
+$margin-content: var(--my-margin-content, 10px);
+
+//width
+$container-max-width: var(--my-container-max-width, 1600px);
+$container-middle-width: var(--my-container-middle-width, 1200px);
+$container-small-width: var(--my-container-small-width, 800px);
+$dialog-width: var(--my-dialog-width, 350px);
+
+//fonts
+$font-name: var(--my-font-name, auto);
+
+// Colors
+$light-text: var(--my-light-text, #ffffff);
+$light-text-lighter: var(--my-light-text-lighter, #ffffff);
+$light-text-darker: var(--my-light-text-darker, #e5e5e5);
+
+$dark-text: var(--my-dark-text, #3e3e3e);
+$dark-text-lighter: var(--my-dark-text-lighter, #515151);
+$dark-text-darker: var(--my-dark-text-darker, #373737);
+
+$background-color: var(--my-background-color, #f9f9f9);
+$background-color-lighter: var(--my-background-color-lighter, #ffffff);
+$background-color-darker: var(--my-background-color-darker, #e0e0e0);
+
+$border-color: var(--my-border-color, #ededed);
+$border-color-lighter: var(--my-border-color-lighter, #eeeeee);
+$border-color-darker: var(--my-border-color-darker, #d5d5d5);
+
+$primary-color: var(--my-primary-color, #0e86d7);
+$primary-lighter-color: var(--my-primary-lighter-color, #b7dbf3);
+$primary-darker-color: var(--my-primary-darker-color, #0869c7);
+
+$accent-color: var(--my-accent-color, #069c9c);
+$accent-lighter-color: var(--my-accent-lighter-color, #b4e1e1);
+$accent-darker-color: var(--my-accent-darker-color, #038080);
+
+$error-color: var(--my-error-color, #ba0505);
+$error-lighter-color: var(--my-error-lighter-color, #eab4b4);
+$error-darker-color: var(--my-error-darker-color, #a30303);
+
+$warning-color: var(--my-warning-color, #b87f00);
+$success-color: var(--my-success-color, #006a00);
+
+//border-radius
+$border-radius-btn: var(--my-border-radius-btn, 4px);
+$border-radius-card: var(--my-border-radius-card, 10px);
+
+////margins
+//$margin-main: 30px;
+//$margin-side: 20px;
+//$margin-content: 10px;
+//
+////width
+//$container-max-width: 1600px;
+//$container-middle-width: 1400px;
+//$container-small-width: 800px;
+//$dialog-width: 350px;
+//
+////fonts
+//$font-name: Lato;
+//
+//// Colors
+//$light-text: #ffffff;
+//$light-text-lighter: #ffffff;
+//$light-text-darker: #e5e5e5;
+//
+//$dark-text: #3e3e3e;
+//$dark-text-lighter: #515151;
+//$dark-text-darker:  #373737;
+//
+//$background-color: #f9f9f9;
+//$background-color-lighter: #ffffff;
+//$background-color-darker: #e0e0e0;
+//
+//$border-color: #ededed;
+//$border-color-lighter: #eeeeee;
+//$border-color-darker: #d5d5d5;
+//
+//$primary-color: #0e86d7;
+//$primary-lighter-color: #b7dbf3;
+//$primary-darker-color: #0869c7;
+//
+//$accent-color: #069c9c;
+//$accent-lighter-color: #b4e1e1;
+//$accent-darker-color: #038080;
+//
+//$error-color: #ba0505;
+//$error-lighter-color: #eab4b4;
+//$error-darker-color: #a30303;
+//
+//$warning-color: #b87f00;
+//$success-color: #006a00;
+//
+////border-radius
+//$border-radius-btn: 4px;
+//$border-radius-card: 10px;
+
+//unused variables
+//$mobile-size-medium-screen: 600px;
+//$max-width: var(--my-max-width, 1900px);
+//$margin-section: var(--my-margin-section, 80px);
+//$basic-font-size: var(--my-basic-font-size, 21px);
+//$basic-line-height: var(--my-basic-line-height, 25px);
+//$title-font-size: var(--my-title-font-size, 42px);
+//$title-line-height: var(--my-title-line-height, 50px);
+//$background-dark-color: var(--my-background-dark-color, #2c2c2c);
+//$light-bg-lighter-5:  var(--my-light-bg-lighter-5, #f9f9f9);
+//$dark-bg-lighter-5:   var(--my-dark-bg-lighter-5, #363636);
+//$dark-bg-lighter-10:  var(--my-dark-bg-lighter-10, #414141);
+//$dark-bg-lighter-20:  var(--my-dark-bg-lighter-20, #565656);
+//$dark-bg-lighter-30:  var(--my-dark-bg-lighter-30, #6b6b6b);

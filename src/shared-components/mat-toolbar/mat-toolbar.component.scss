@@ -1,0 +1,61 @@
+@import 'abstracts/constants';
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  background-color: $background-color;
+  &--landing {
+    background-color: #1E2227;
+  }
+  &__title {
+    margin-left: $margin-content;
+    cursor: pointer;
+  }
+  &__section {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    .left-section {
+      &__logo {
+        max-width: 88px;
+        margin-right: $margin-content;
+      }
+      &__btn {
+        margin-left: 3px;
+        margin-right: 3px;
+        &:hover {
+          color: $primary-darker-color;
+        }
+      }
+      &__welcome-text {
+        margin: 0;
+        font-size: 16px;
+      }
+    }
+    .right-section {
+      &__user-data {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-right: 10px;
+      }
+      &__user-data * {
+        margin-left: $margin-content !important;
+      }
+      &__auth {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        .auth {
+          &__lang {
+            margin-right: $margin-content;
+          }
+        }
+      }
+    }
+  }
+}

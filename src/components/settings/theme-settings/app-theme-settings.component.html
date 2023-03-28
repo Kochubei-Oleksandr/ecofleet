@@ -1,0 +1,153 @@
+<div class="theme-settings">
+  <div class="spinner" *ngIf="!tableDataSource && !isRequestCompleted()">
+    <app-progress-spinner [diameter]="200"></app-progress-spinner>
+  </div>
+  <div *ngIf="tableDataSource" class="theme-settings__container container mat-elevation-z8">
+    <div class="spinner container__loading-shade" *ngIf="!isRequestCompleted()">
+      <app-progress-spinner [diameter]="100"></app-progress-spinner>
+    </div>
+    <div class="container__top top">
+      <h2 class="top__title">
+        {{'THEME_SETTINGS' | translate}}
+      </h2>
+      <mat-select
+        class="top__select"
+        (selectionChange)="getCssVariables()"
+        placeholder="{{'DISPLAY_DATA_IN_THIS_CATEGORY' | translate}}"
+        [(ngModel)]="selectedCategoryId"
+      >
+        <mat-option *ngFor="let cssVariableCategory of allCssVariableCategories" [value]="cssVariableCategory.id">
+          {{cssVariableCategory.name}}
+        </mat-option>
+      </mat-select>
+      <mat-icon
+        (click)="resetFiltersAndGetAllData()"
+        class="top__icon-get-all-data"
+        matTooltip="{{'RESET_FILTERS_AND_DISPLAY_ALL_DATA' | translate}}"
+      >
+        settings_backup_restore
+      </mat-icon>
+      <div class="top__filter filter">
+        <mat-icon class="filter__icon">search</mat-icon>
+        <input
+          class="filter__input"
+          [(ngModel)]="filterByString"
+          (keyup)="getCssVariables()"
+          placeholder="{{'SEARCH'| translate}}"
+        >
+      </div>
+    </div>
+    <form class="container__form form" [formGroup]="cssVariableFormGroup">
+      <mat-table
+        class="form__table table"
+        matSort
+        formArrayName="css_variables"
+        (matSortChange)="sortCssVariableData($event)"
+        [dataSource]="tableDataSource"
+      >
+        <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+        <mat-row class="table__element-row" *matRowDef="let row; let i = index; columns: columnsToDisplay;"></mat-row>
+
+        <tr class="table__no-data-row" *matNoDataRow>
+          <td colspan="6">{{'NO_DATA_MATCHING_THE_FILTER' | translate}} "{{filterByString}}"</td>
+        </tr>
+
+        <ng-container matColumnDef="id">
+          <mat-header-cell mat-sort-header class="table__th table__th--id" *matHeaderCellDef>
+            {{'ID' | translate}}
+          </mat-header-cell>
+          <mat-cell class="table__td table__td--id" *matCellDef="let row">
+            <span class="table__mobile-label">{{'ID' | translate}}:</span>
+            {{row.id}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="variable_name">
+          <mat-header-cell mat-sort-header class="table__th table__th--main-section" *matHeaderCellDef>
+            {{'VARIABLE_NAME' | translate}}
+          </mat-header-cell>
+          <mat-cell class="table__td table__td--main-section" *matCellDef="let row; let cellIndex = index" [formGroupName]="cellIndex">
+            <span class="table__mobile-label">{{'VARIABLE_NAME' | translate}}:</span>
+            <p>{{row.variable_name}}</p>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="variable_value">
+          <mat-header-cell mat-sort-header class="table__th table__th--main-section" *matHeaderCellDef>
+            {{'VARIABLE_VALUE' | translate}}
+          </mat-header-cell>
+          <mat-cell class="table__td table__td--main-section" *matCellDef="let row; let cellIndex = index" [formGroupName]="cellIndex">
+            <span class="table__mobile-label">{{'VARIABLE_VALUE' | translate}}:</span>
+            <mat-form-field *ngIf="isVariableForColor(row.css_variable_category_id); else matInput" class="table__form-field">
+              <input matInput [ngxMatColorPicker]="picker" formControlName="variable_value">
+              <ngx-mat-color-toggle matSuffix [for]="picker"></ngx-mat-color-toggle>
+              <ngx-mat-color-picker #picker></ngx-mat-color-picker>
+            </mat-form-field>
+            <ng-template #matInput>
+              <mat-form-field class="table__form-field">
+                <mat-label>{{'VARIABLE_VALUE' | translate}}</mat-label>
+                <input matInput formControlName="variable_value" maxlength="50">
+                <mat-hint align="end">
+                  {{getIterationControl(cellIndex).get('variable_value').value?.length}} / 50
+                </mat-hint>
+                <mat-error *ngIf="getIterationControl(cellIndex).hasError('required', 'variable_value')">
+                  {{ 'REQUIRED_ERROR' | translate }}
+                </mat-error>
+                <mat-error *ngIf="getIterationControl(cellIndex).hasError('maxlength', 'variable_value')">
+                  {{ 'MAX_LENGTH' | translate:{number: 50} }}
+                </mat-error>
+                <mat-error *ngIf="serverValidationForm.isServerValidationError('variable_value')">
+                  {{ serverValidationForm.getServerValidationError('variable_value') }}
+                </mat-error>
+              </mat-form-field>
+            </ng-template>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="variable_default_value">
+          <mat-header-cell mat-sort-header class="table__th table__th--default-value" *matHeaderCellDef>
+            {{'VARIABLE_DEFAULT_VALUE' | translate}}
+          </mat-header-cell>
+          <mat-cell class="table__td table__td--default-value" *matCellDef="let row; let cellIndex = index" [formGroupName]="cellIndex">
+            <span class="table__mobile-label">{{'VARIABLE_DEFAULT_VALUE' | translate}}:</span>
+            <p>{{row.variable_default_value}}</p>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <mat-header-cell class="table__th table__th--btn" *matHeaderCellDef> {{'ACTIONS' | translate}} </mat-header-cell>
+          <mat-cell class="table__td table__td--btn" *matCellDef="let row; let cellIndex = index" [formGroupName]="cellIndex">
+            <span class="table__mobile-label">{{'ACTIONS' | translate}}:</span>
+            <div class="table__button button">
+              <div class="button__wrapper">
+                <div *ngIf="isSaveItemRequestInProcess(cellIndex); else buttonTable">
+                  <app-progress-spinner [diameter]="20"></app-progress-spinner>
+                </div>
+                <ng-template #buttonTable>
+                  <button
+                    (click)="updateCssVariable(cellIndex)"
+                    mat-icon-button color="primary"
+                    matTooltip="{{'SAVE' | translate}}"
+                    [class]="{'table__button--dirty': isFormControlDataDirty(cellIndex)}"
+                  >
+                    <mat-icon>save</mat-icon>
+                  </button>
+                </ng-template>
+              </div>
+            </div>
+          </mat-cell>
+        </ng-container>
+      </mat-table>
+
+      <mat-paginator
+        [showFirstLastButtons]="true"
+        [length]="paginatorTotalCount"
+        [pageIndex]="paginatorPageIndex"
+        [pageSize]="paginatorPageSize"
+        [pageSizeOptions]="paginatorPageSizeOptions"
+        (page)="paginateCssVariableData($event)"
+      ></mat-paginator>
+    </form>
+  </div>
+</div>
+

@@ -1,0 +1,43 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+html, body {
+  height: 100%;
+}
+body {
+  font-family: $font-name;
+  background-color: $background-color;
+}
+a, u {
+  text-decoration: none;
+}
+button {
+  border: none;
+  background-color: unset;
+  font: 400 15px $font-name;
+  cursor: pointer;
+  display: block;
+  text-align: left;
+  text-transform: uppercase;
+  &:focus {
+    outline: none;
+  }
+}
+fieldset {
+  margin: unset;
+  padding: unset;
+  border: unset;
+}
+.spinner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+

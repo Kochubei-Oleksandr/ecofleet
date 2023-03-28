@@ -1,0 +1,34 @@
+<mat-toolbar [class]="{'toolbar': true, 'toolbar--landing': isLandingPage()}" class="toolbar">
+    <div class="toolbar__section left-section">
+        <button class="left-section__btn"
+            *ngIf="isUserAuth()"
+            mat-icon-button
+            (click)="sidenavService.toggleSidenav()"
+        >
+            <mat-icon>menu</mat-icon>
+        </button>
+        <img class="left-section__logo" [src]="isLandingPage() ? 'assets/images/logo_white.png' : 'assets/images/logo_black.png'" alt="Logo">
+        <p *ngIf="user && isUserAuth()" class="left-section__welcome-text">
+          <span *ngIf="user.name; else without_name">{{'WELCOME' | translate}}, {{user.name}}</span>
+          <ng-template #without_name>{{'WELCOME' | translate}}, {{user.email}}</ng-template>
+        </p>
+    </div>
+    <div class="toolbar__section right-section">
+        <div class="right-section__user-data user-data">
+            <app-language-switching class="user-data__lang"></app-language-switching>
+        </div>
+      <div *ngIf="!isUserAuth()" class="right-section__auth auth">
+        <button color="primary" (click)="goToLoginPage()" class="auth__bth" mat-button>
+          <span>{{'LOGIN' | translate}}</span>
+        </button>
+        <button color="primary" (click)="goToRegistrationPage()" class="auth__bth" mat-button>
+          <span>{{'REGISTRATION' | translate}}</span>
+        </button>
+      </div>
+        <div *ngIf="isUserAuth()" class="right-section__auth auth">
+            <button color="primary" (click)="logout()" class="auth__bth" mat-button>
+                <span>{{'LOGOUT' | translate}}</span>
+            </button>
+        </div>
+    </div>
+</mat-toolbar>

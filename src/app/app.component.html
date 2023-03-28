@@ -1,0 +1,19 @@
+<div class="app" [class.app__mobile-version]="mobileQuery.matches">
+  <app-mat-toolbar class="app__toolbar toolbar"></app-mat-toolbar>
+  <mat-sidenav-container autosize="true" class="app__sidenav sidenav" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav class="sidenav__menu" #appDrawer [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+      <mat-nav-list *ngIf="isUserAuth() && !isLandingPage()">
+        <app-menu-list-item *ngFor="let item of sidenavItems" [item]="item"></app-menu-list-item>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content class="sidenav__content content">
+      <div class="content--wrapper">
+        <div class="content__main">
+          <router-outlet></router-outlet>
+        </div>
+        <div class="sidenavcontent__footer">
+        </div>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

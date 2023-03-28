@@ -1,0 +1,78 @@
+<div class="login">
+    <div class="login__container container">
+        <div class="container__header--wrapper">
+            <h2 class="container__header">
+                {{'REGISTRATION' | translate}}
+            </h2>
+        </div>
+        <div class="container__content content">
+            <form class="content__form form" [formGroup]="registrationFormGroup">
+                <mat-form-field class="form__item">
+                    <mat-label>{{'EMAIL' | translate}}</mat-label>
+                    <input required matInput formControlName="email" maxlength="100">
+                    <mat-hint align="end">
+                        {{registrationFormGroup.get('email').value?.length}} / 100
+                    </mat-hint>
+                    <mat-error *ngIf="registrationFormGroup.hasError('email', 'email')">
+                        {{ 'EMAIL_ERROR' | translate }}
+                    </mat-error>
+                    <mat-error *ngIf="registrationFormGroup.hasError('required', 'email')">
+                        {{ 'REQUIRED_ERROR' | translate }}
+                    </mat-error>
+                    <mat-error *ngIf="registrationFormGroup.hasError('maxlength', 'email')">
+                        {{ 'MAX_LENGTH' | translate:{number: 100} }}
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="form__item">
+                    <mat-label>{{'PASSWORD' | translate}}</mat-label>
+                    <input required matInput formControlName="password" maxlength="30" type="password">
+                    <mat-hint align="end">
+                      {{registrationFormGroup.get('password').value?.length}} / 30
+                    </mat-hint>
+                    <mat-error *ngIf="registrationFormGroup.hasError('required', 'password')">
+                        {{ 'REQUIRED_ERROR' | translate }}
+                    </mat-error>
+                    <mat-error *ngIf="registrationFormGroup.hasError('maxlength', 'password')">
+                       {{ 'MAX_LENGTH' | translate:{number: 30} }}
+                    </mat-error>
+                    <mat-error *ngIf="serverValidationForm.isServerValidationError('password')">
+                      {{ serverValidationForm.getServerValidationError('password') | translate }}
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="form__item">
+                    <mat-label>{{'CONFIRMATION_PASSWORD' | translate}}</mat-label>
+                    <input required matInput formControlName="password_confirmation" maxlength="30" type="password">
+                    <mat-hint align="end">
+                        {{registrationFormGroup.get('password_confirmation').value?.length}} / 30
+                    </mat-hint>
+                    <mat-error *ngIf="registrationFormGroup.hasError('maxlength', 'password_confirmation')">
+                        {{ 'MAX_LENGTH' | translate:{number: 30} }}
+                    </mat-error>
+                    <mat-error *ngIf="registrationFormGroup.hasError('notSame', 'password_confirmation')">
+                        {{'PASSWORDS_DO_NOT_MATCH' | translate}}
+                    </mat-error>
+                </mat-form-field>
+                <mat-checkbox class="form__checkbox" formControlName="usage_policy">
+                    {{'I_AGREE_TO_THE_TERMS_OF_SERVICE' | translate}}
+                    <mat-error *ngIf="serverValidationForm.isServerValidationError('usage_policy')">
+                       {{ serverValidationForm.getServerValidationError('usage_policy') | translate }}
+                    </mat-error>
+                </mat-checkbox>
+                <div class="form__btn--wrapper">
+                    <button
+                      *ngIf="isRegistrationRequestCompleted"
+                      (click)="registrationHandle()"
+                      mat-stroked-button
+                      color="primary"
+                      [class]="{'form__btn': true,'form__btn--hidden' : !isRegistrationRequestCompleted}"
+                      [disabled]="!registrationFormGroup.valid"
+                    >
+                        {{'REGISTRATION' | translate}}
+                    </button>
+                    <app-progress-spinner *ngIf="!isRegistrationRequestCompleted">
+                    </app-progress-spinner>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

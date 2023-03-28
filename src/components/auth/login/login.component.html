@@ -1,0 +1,49 @@
+<div class="login">
+    <div class="login__container container">
+        <div class="container__header--wrapper">
+            <h2 class="container__header">
+                {{'LOGIN' | translate}}
+            </h2>
+        </div>
+        <div class="container__content content">
+            <form class="content__form form" [formGroup]="loginFormGroup">
+                <mat-form-field class="form__item">
+                    <mat-label>{{'EMAIL' | translate}}</mat-label>
+                    <input required matInput formControlName="email">
+                    <mat-error *ngIf="loginFormGroup.hasError('email', 'email')">
+                        {{ 'EMAIL_ERROR' | translate }}
+                    </mat-error>
+                    <mat-error *ngIf="loginFormGroup.hasError('required', 'email')">
+                        {{ 'REQUIRED_ERROR' | translate }}
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="form__item">
+                    <mat-label>{{'PASSWORD' | translate}}</mat-label>
+                    <input required matInput formControlName="password" type="password">
+                    <mat-error *ngIf="loginFormGroup.hasError('required', 'password')">
+                        {{ 'REQUIRED_ERROR' | translate }}
+                    </mat-error>
+                </mat-form-field>
+                <a class="form__reset-password reset-password">{{'FORGOT_YOUR_PASSWORD?' | translate}}
+                    <span class="reset-password__text" (click)="resetPasswordHandle()">
+                      {{'RESET_PASSWORD' | translate}}
+                    </span>
+                </a>
+                <div class="form__btn--wrapper">
+                    <button
+                      *ngIf="isLoginRequestCompleted"
+                      (click)="loginHandle()"
+                      mat-stroked-button
+                      color="primary"
+                      [class]="{'form__btn': true,'form__btn--hidden' : !isLoginRequestCompleted}"
+                      [disabled]="!loginFormGroup.valid"
+                    >
+                        {{'LOGIN' | translate}}
+                    </button>
+                    <app-progress-spinner *ngIf="!isLoginRequestCompleted">
+                    </app-progress-spinner>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

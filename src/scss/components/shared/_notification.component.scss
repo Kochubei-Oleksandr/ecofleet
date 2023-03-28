@@ -1,0 +1,20 @@
+// The same colors like inside _constants.scss
+//$error-color: var(--my-error-color, #ba0505);
+//$warning-color: var(--my-warning-color, #b87f00);
+//$success-color: var(--my-success-color, #006a00);
+
+.error {
+  color: #ba0505;
+  --mdc-snackbar-container-color: #ba0505;
+  --mat-mdc-snack-bar-button-color: white;
+}
+.warn {
+  color: #b87f00;
+  --mdc-snackbar-container-color: #b87f00;
+  --mat-mdc-snack-bar-button-color: white;
+}
+.success {
+  color: #006a00;
+  --mdc-snackbar-container-color: #006a00;
+  --mat-mdc-snack-bar-button-color: white;
+}

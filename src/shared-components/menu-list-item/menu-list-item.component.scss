@@ -1,0 +1,54 @@
+@import 'abstracts/constants';
+
+:host ::ng-deep .mdc-list-item__primary-text {
+  display: flex;
+  flex: 1 1 0%;
+  padding: 0 15px;
+}
+:host {
+  display: flex;
+  flex-direction: column;
+  outline: none;
+  width: 100%;
+
+  .mat-mdc-list-item.active {
+    color: $primary-color;
+    background-color: $background-color-lighter;
+  }
+  &:hover, &:focus {
+    >.mat-mdc-list-item:not(.expanded) {
+      color: $primary-color;
+      background-color: $background-color-lighter;
+    }
+  }
+  &:visited {
+    border-radius: 20px;
+  }
+  .mat-mdc-list-item.visited {
+    border-radius: 20px;
+  }
+}
+.mat-mdc-list-item {
+  padding: 5px 0;
+  display: flex;
+  width: auto;
+  border-radius: 20px;
+  margin: 3px 10px;
+}
+.menu-list-item {
+  &__route-icon {
+    &:hover {
+      color: $dark-text-lighter;
+    }
+    margin-right: 16px;
+  }
+  &__span-item {
+    display: flex; flex: 1 1 0%;
+  }
+  &__expand-icon {
+    margin-left: 16px;
+  }
+}
+
+
+

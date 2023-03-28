@@ -1,0 +1,41 @@
+@import 'abstracts/constants';
+
+.users-and-roles {
+  width: 100%;
+  max-width: $container-max-width;
+  margin: 0 auto;
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 $margin-side $margin-main ;
+    .container {
+      &__header {
+        margin-bottom: $margin-side;
+        &--wrapper { }
+        font: 500 24px/32px $font-name;
+        text-align: center;
+      }
+      &__content {
+        width: 100%;
+        .content {
+          &__mat-tab {
+            white-space: nowrap;
+            overflow: auto;
+            margin: 0 auto;
+            max-width: 70%;
+            @media screen and (max-width: $mobile-size-screen) {
+              width: auto;
+            }
+          }
+        }
+      }
+    }
+  }
+  .mat-tab-label-active{
+    opacity: 1;
+    color: $accent-color;
+  }
+}
+
+

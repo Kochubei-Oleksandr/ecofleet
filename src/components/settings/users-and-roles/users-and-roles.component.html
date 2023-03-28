@@ -1,0 +1,27 @@
+<div class="users-and-roles">
+  <div class="users-and-roles__container container">
+<!--    <div class="container__header&#45;&#45;wrapper">-->
+<!--      <h2 class="container__header">-->
+<!--        {{'USERS_AND_ROLES' | translate}}-->
+<!--      </h2>-->
+<!--    </div>-->
+    <div class="container__content content">
+      <nav mat-tab-nav-bar mat-stretch-tabs mat-align-tabs="center" [tabPanel]="tabPanel"  class="content__mat-tab">
+        <a mat-tab-link routerLinkActive #rla_users="routerLinkActive"
+           [active]="rla_users.isActive" [routerLink]="routingNames.users">
+          {{'USERS' | translate}}
+        </a>
+        <a mat-tab-link routerLinkActive #rla_roles="routerLinkActive"
+           [active]="rla_roles.isActive" [routerLink]="routingNames.roles">
+          {{'ROLES' | translate}}
+        </a>
+        <a mat-tab-link routerLinkActive #rla_access_level_control="routerLinkActive"
+           [active]="rla_access_level_control.isActive" [routerLink]="routingNames.access_level_control">
+          {{'ACCESS_LEVEL_CONTROL' | translate}}
+        </a>
+      </nav>
+      <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

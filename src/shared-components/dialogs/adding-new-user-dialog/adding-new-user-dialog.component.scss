@@ -1,0 +1,21 @@
+@import 'abstracts/constants';
+
+.adding-new-user-dialog {
+  &__title {
+    text-align: center;
+    margin: $margin-content 0 !important;
+  }
+  &__content {
+    .content {
+      &__form {
+        display: flex;
+        flex-direction: column;
+        .form {
+          &__item {
+            margin-bottom: 5px;
+          }
+        }
+      }
+    }
+  }
+}

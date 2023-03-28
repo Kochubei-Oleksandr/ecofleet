@@ -1,0 +1,55 @@
+@import 'abstracts/constants';
+
+.app {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  min-height: 100vh;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  &__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+  }
+  &__mobile-version &__toolbar{
+    position: fixed;
+    /* Make sure the toolbar will stay on top of the content as it scrolls past. */
+    z-index: 2;
+  }
+  &__sidenav {
+    /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
+    causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
+    flex: 1;
+    .sidenav {
+      &__menu {
+        padding-top: 0;
+      }
+      &__content {
+        .content {
+          &--wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background-color: $background-color;
+          }
+          &__main {
+            flex: 1 0 auto;
+          }
+          &__footer { }
+        }
+      }
+    }
+  }
+  &__mobile-version &__sidenav {
+    /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
+       `<body>` to be our scrolling element for mobile layouts. */
+    flex: 1 0 auto;
+  }
+  ::ng-deep .mat-nav-list {
+    padding-top: 0;
+  }
+}

@@ -1,0 +1,33 @@
+@import 'abstracts/constants';
+
+.cookies-panel {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  z-index: 999;
+  background-color: $primary-lighter-color;
+  padding: 10px;
+  opacity: 0.9;
+  &__content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: $container-max-width;
+    margin: 0 auto;
+    .content {
+      &__text {}
+      &__link {
+        color: $primary-darker-color;
+        text-decoration: none;
+      }
+      &__btn {
+        margin: 10px 20px;
+        text-transform: uppercase;
+        &:hover {
+          color: $dark-text;
+          background-color: $accent-color;
+        }
+      }
+    }
+  }
+}

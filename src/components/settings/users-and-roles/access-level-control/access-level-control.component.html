@@ -1,0 +1,149 @@
+<div class="access-level-control">
+  <div class="spinner" *ngIf="!tableDataSource && !isRequestCompleted()">
+    <app-progress-spinner [diameter]="200"></app-progress-spinner>
+  </div>
+
+  <div *ngIf="tableDataSource" class="access-level-control__container container mat-elevation-z8">
+    <div class="spinner container__loading-shade" *ngIf="!isRequestCompleted()">
+      <app-progress-spinner [diameter]="100"></app-progress-spinner>
+    </div>
+    <div class="container__top top">
+      <h2 class="top__title">{{'ACCESS_LEVEL_CONTROL' | translate}}</h2>
+      <mat-form-field>
+        <mat-label>{{'ROLES' | translate}}</mat-label>
+        <mat-select (selectionChange)="getRoutesWithActions()" [(ngModel)]="selectedRoleId">
+          <mat-option *ngFor="let item of roles" [value]="item.id">
+            {{item.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <form *ngIf="tableDataSource" class="container__form form" [formGroup]="routesWithActionsFormGroup">
+      <mat-table class="form__table table" formArrayName="routes_with_actions" [dataSource]="tableDataSource">
+        <mat-header-row  *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+        <mat-row  class="table__element-row" *matRowDef="let row; let i = index; columns: columnsToDisplay;"></mat-row>
+
+        <ng-container matColumnDef="route_name">
+          <mat-header-cell class="table__th" *matHeaderCellDef>
+            {{'ROUTE_NAME' | translate}}
+          </mat-header-cell>
+          <mat-cell class="table__td" *matCellDef="let row">
+            <span class="table__mobile-label">{{'ROUTE_NAME' | translate}}:</span>
+            {{row.route_name}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="index">
+          <mat-header-cell class="table__th" *matHeaderCellDef>
+            {{'DISPLAY_ALL' | translate}}
+          </mat-header-cell>
+          <mat-cell class="table__td td" *matCellDef="let row; let cellIndex = index" [formGroupName]="cellIndex">
+            <span class="table__mobile-label">{{'DISPLAY_ALL' | translate}}:</span>
+            <div *ngIf="row.hasOwnProperty('index')" class="td__wrapper">
+              <mat-slide-toggle (change)="statusToggleHandler(row, 'index')" formControlName="index">
+                {{'STATUS' | translate}}
+              </mat-slide-toggle>
+              <mat-slide-toggle
+                *ngIf="getIterationControl(cellIndex).value.index"
+                (change)="ownerToggleHandler(cellIndex, 'index', 'index_is_owner')"
+                formControlName="index_is_owner"
+                [disabled]="isDisableToggleForOwner(cellIndex, 'index')"
+              >
+                {{'ONLY_FOR_OWNER' | translate}}
+              </mat-slide-toggle>
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="show">
+          <mat-header-cell class="table__th" *matHeaderCellDef>
+            {{'DISPLAY_ONE_RECORD' | translate}}
+          </mat-header-cell>
+          <mat-cell class="table__td" *matCellDef="let row; let cellIndex = index" [formGroupName]="cellIndex">
+            <span class="table__mobile-label">{{'DISPLAY_ONE_RECORD' | translate}}:</span>
+            <div *ngIf="row.hasOwnProperty('show')" class="td__wrapper">
+              <mat-slide-toggle (change)="statusToggleHandler(row, 'show')" formControlName="show">
+                {{'STATUS' | translate}}
+              </mat-slide-toggle>
+              <mat-slide-toggle
+                *ngIf="getIterationControl(cellIndex).value.show"
+                (change)="ownerToggleHandler(cellIndex, 'show', 'show_is_owner')"
+                formControlName="show_is_owner"
+                [disabled]="isDisableToggleForOwner(cellIndex, 'show')"
+              >
+                {{'ONLY_FOR_OWNER' | translate}}
+              </mat-slide-toggle>
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="store">
+          <mat-header-cell class="table__th" *matHeaderCellDef>
+            {{'CREATE_OR_DO' | translate}}
+          </mat-header-cell>
+          <mat-cell class="table__td" *matCellDef="let row; let cellIndex = index" [formGroupName]="cellIndex">
+            <span class="table__mobile-label">{{'CREATE_OR_DO' | translate}}:</span>
+            <div *ngIf="row.hasOwnProperty('store')" class="td__wrapper">
+              <mat-slide-toggle (change)="statusToggleHandler(row, 'store')" formControlName="store">
+                {{'STATUS' | translate}}
+              </mat-slide-toggle>
+              <mat-slide-toggle
+                *ngIf="getIterationControl(cellIndex).value.store"
+                (change)="ownerToggleHandler(cellIndex, 'store', 'store_is_owner')"
+                formControlName="store_is_owner"
+                [disabled]="isDisableToggleForOwner(cellIndex, 'store')"
+              >
+                {{'ONLY_FOR_OWNER' | translate}}
+              </mat-slide-toggle>
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="update">
+          <mat-header-cell class="table__th" *matHeaderCellDef>
+            {{'UPDATE_OR_CHANGE' | translate}}
+          </mat-header-cell>
+          <mat-cell class="table__td" *matCellDef="let row; let cellIndex = index" [formGroupName]="cellIndex">
+            <span class="table__mobile-label">{{'UPDATE_OR_CHANGE' | translate}}:</span>
+            <div *ngIf="row.hasOwnProperty('update')" class="td__wrapper">
+              <mat-slide-toggle (change)="statusToggleHandler(row, 'update')" formControlName="update">
+                {{'STATUS' | translate}}
+              </mat-slide-toggle>
+              <mat-slide-toggle
+                *ngIf="getIterationControl(cellIndex).value.update"
+                (change)="ownerToggleHandler(cellIndex, 'update', 'update_is_owner')"
+                formControlName="update_is_owner"
+                [disabled]="isDisableToggleForOwner(cellIndex, 'update')"
+              >
+                {{'ONLY_FOR_OWNER' | translate}}
+              </mat-slide-toggle>
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="destroy">
+          <mat-header-cell class="table__th" *matHeaderCellDef>
+            {{'DELETE_OR_HIDE' | translate}}
+          </mat-header-cell>
+          <mat-cell class="table__td" *matCellDef="let row; let cellIndex = index" [formGroupName]="cellIndex">
+            <span class="table__mobile-label">{{'DELETE_OR_HIDE' | translate}}:</span>
+            <div *ngIf="row.hasOwnProperty('destroy')" class="td__wrapper">
+              <mat-slide-toggle (change)="statusToggleHandler(row, 'destroy')" formControlName="destroy">
+                {{'STATUS' | translate}}
+              </mat-slide-toggle>
+              <mat-slide-toggle
+                *ngIf="getIterationControl(cellIndex).value.destroy"
+                (change)="ownerToggleHandler(cellIndex, 'destroy', 'destroy_is_owner')"
+                formControlName="destroy_is_owner"
+                [disabled]="isDisableToggleForOwner(cellIndex, 'destroy')"
+              >
+                {{'ONLY_FOR_OWNER' | translate}}
+              </mat-slide-toggle>
+            </div>
+          </mat-cell>
+        </ng-container>
+
+      </mat-table>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,148 @@
+<div class="roles">
+  <div class="spinner" *ngIf="!tableDataSource && !isRequestCompleted()">
+    <app-progress-spinner [diameter]="200"></app-progress-spinner>
+  </div>
+
+  <div *ngIf="tableDataSource" class="roles__container container mat-elevation-z8">
+    <div class="spinner container__loading-shade" *ngIf="!isRequestCompleted()">
+      <app-progress-spinner [diameter]="100"></app-progress-spinner>
+    </div>
+    <div class="container__top top">
+      <h2 class="top__title">{{'ROLES' | translate}}</h2>
+      <button class="top__add-new-data-btn" (click)="openAddingNewRoleDialog()" mat-stroked-button>
+        {{'ADD_NEW_ROLE' | translate}}
+      </button>
+      <div class="top__filter filter">
+        <mat-icon class="filter__icon">search</mat-icon>
+        <input
+          class="filter__input"
+          [(ngModel)]="filterByString"
+          (keyup)="getRoles()"
+          placeholder="{{'SEARCH'| translate}}"
+        >
+      </div>
+    </div>
+    <form *ngIf="tableDataSource" class="container__form form" [formGroup]="rolesFormGroup">
+      <mat-table class="form__table table" matSort formArrayName="roles" (matSortChange)="sortRolesData($event)" [dataSource]="tableDataSource">
+        <mat-header-row  *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+        <mat-row  class="table__element-row" *matRowDef="let row; let i = index; columns: columnsToDisplay;"></mat-row>
+
+        <tr class="table__no-data-row" *matNoDataRow>
+          <td colspan="6">{{'NO_DATA_MATCHING_THE_FILTER' | translate}} "{{filterByString}}"</td>
+        </tr>
+
+        <ng-container matColumnDef="id">
+          <mat-header-cell mat-sort-header class="table__th table__th--id" *matHeaderCellDef>
+            {{'ID' | translate}}
+          </mat-header-cell>
+          <mat-cell class="table__td table__td--id" *matCellDef="let row">
+            <span class="table__mobile-label">{{'ID' | translate}}:</span>
+            {{row.id}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <mat-header-cell mat-sort-header class="table__th" *matHeaderCellDef>
+            {{'NAME' | translate}}
+          </mat-header-cell>
+          <mat-cell class="table__td" *matCellDef="let row; let cellIndex = index" [formGroupName]="cellIndex">
+            <span class="table__mobile-label">{{'NAME' | translate}}:</span>
+            <mat-form-field class="table__form-field">
+              <mat-label>{{'NAME' | translate}}</mat-label>
+              <input required matInput formControlName="name" maxlength="50">
+              <mat-hint align="end">
+                {{getIterationControl(cellIndex).get('name').value?.length}} / 50
+              </mat-hint>
+              <mat-error *ngIf="getIterationControl(cellIndex).hasError('required', 'name')">
+                {{ 'REQUIRED_ERROR' | translate }}
+              </mat-error>
+              <mat-error *ngIf="getIterationControl(cellIndex).hasError('maxlength', 'name')">
+                {{ 'MAX_LENGTH' | translate:{number: 50} }}
+              </mat-error>
+              <mat-error *ngIf="serverValidationForm.isServerValidationError('name')">
+                {{ serverValidationForm.getServerValidationError('name') }}
+              </mat-error>
+            </mat-form-field>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="is_registration_role">
+          <mat-header-cell mat-sort-header class="table__th table__th--slide" *matHeaderCellDef>
+            {{'IS_REGISTRATION_ROLE' | translate}}
+          </mat-header-cell>
+          <mat-cell class="table__td table__td--slide" *matCellDef="let row; let cellIndex = index" [formGroupName]="cellIndex">
+            <span class="table__mobile-label">{{'IS_REGISTRATION_ROLE' | translate}}:</span>
+            <mat-slide-toggle color="primary" formControlName="is_registration_role"></mat-slide-toggle>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <mat-header-cell mat-sort-header class="table__th" *matHeaderCellDef>
+            {{'DESCRIPTION' | translate}}
+          </mat-header-cell>
+          <mat-cell class="table__td" *matCellDef="let row; let cellIndex = index" [formGroupName]="cellIndex">
+            <span class="table__mobile-label">{{'DESCRIPTION' | translate}}:</span>
+            <mat-form-field class="table__form-field">
+              <mat-label>{{'DESCRIPTION' | translate}}</mat-label>
+              <input matInput formControlName="description" maxlength="255">
+              <mat-hint align="end">
+                {{getIterationControl(cellIndex).get('description').value?.length}} / 255
+              </mat-hint>
+              <mat-error *ngIf="getIterationControl(cellIndex).hasError('maxlength', 'description')">
+                {{ 'MAX_LENGTH' | translate:{number: 255} }}
+              </mat-error>
+              <mat-error *ngIf="serverValidationForm.isServerValidationError('description')">
+                {{ serverValidationForm.getServerValidationError('description') }}
+              </mat-error>
+            </mat-form-field>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <mat-header-cell class="table__th--btn" *matHeaderCellDef> {{'ACTIONS' | translate}} </mat-header-cell>
+          <mat-cell class="table__td--btn" *matCellDef="let row; let cellIndex = index" [formGroupName]="cellIndex">
+            <span class="table__mobile-label">{{'ACTIONS' | translate}}:</span>
+            <div class="table__button button">
+              <div class="button__wrapper">
+                <div *ngIf="isSaveItemRequestInProcess(cellIndex); else buttonTable">
+                  <app-progress-spinner [diameter]="20"></app-progress-spinner>
+                </div>
+                <ng-template #buttonTable>
+                  <button
+                    (click)="updateTableElement(cellIndex)"
+                    mat-icon-button color="primary"
+                    matTooltip="{{'SAVE' | translate}}"
+                    [disabled]="isSaveItemRequestInProcess(cellIndex)"
+                  >
+                    <mat-icon [class]="{'table__button--dirty': isFormControlDataDirty(cellIndex)}">
+                      save
+                    </mat-icon>
+                  </button>
+                </ng-template>
+              </div>
+              <div class="button__wrapper">
+                <button
+                  (click)="deleteRole(cellIndex)"
+                  mat-icon-button color="primary"
+                  matTooltip="{{'DELETE' | translate}}"
+                  [disabled]="isSaveItemRequestInProcess(cellIndex)"
+                >
+                  <mat-icon>delete_forever</mat-icon>
+                </button>
+              </div>
+            </div>
+          </mat-cell>
+        </ng-container>
+      </mat-table>
+
+      <mat-paginator
+        [showFirstLastButtons]="true"
+        [length]="paginatorTotalCount"
+        [pageIndex]="paginatorPageIndex"
+        [pageSize]="paginatorPageSize"
+        [pageSizeOptions]="paginatorPageSizeOptions"
+        (page)="paginateRolesData($event)"
+      ></mat-paginator>
+    </form>
+  </div>
+</div>

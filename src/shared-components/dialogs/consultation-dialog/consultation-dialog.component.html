@@ -1,0 +1,72 @@
+<div class="consultation">
+    <p class="consultation__title">
+        {{'CONSULTATION_REQUEST_FORM' | translate}}
+    </p>
+    <mat-dialog-content class="consultation__content content">
+        <form class="content__form form" [formGroup]="consultationFormGroup">
+            <mat-form-field class="form__item">
+                <mat-label>{{'NAME' | translate}}</mat-label>
+                <input required matInput formControlName="name" maxlength="20">
+                <mat-hint align="end">
+                    {{consultationFormGroup.get('name').value?.length}} / 20
+                </mat-hint>
+                <mat-error *ngIf="consultationFormGroup.hasError('maxlength', 'name')">
+                  {{ 'MAX_LENGTH' | translate:{number: 20} }}
+                </mat-error>
+                <mat-error *ngIf="consultationFormGroup.hasError('required', 'name')">
+                  {{ 'REQUIRED_ERROR' | translate }}
+                </mat-error>
+                <mat-error *ngIf="serverValidationForm.isServerValidationError('name')">
+                    {{ serverValidationForm.getServerValidationError('name') }}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="form__item">
+                <mat-label>{{'EMAIL' | translate}}</mat-label>
+                <input required matInput formControlName="email" maxlength="50">
+                <mat-hint align="end">
+                    {{consultationFormGroup.get('email').value?.length}} / 50
+                </mat-hint>
+                <mat-error *ngIf="consultationFormGroup.hasError('email', 'email')">
+                    {{ 'EMAIL_ERROR' | translate }}
+                </mat-error>
+                <mat-error *ngIf="consultationFormGroup.hasError('maxlength', 'email')">
+                   {{ 'MAX_LENGTH' | translate:{number: 50} }}
+                </mat-error>
+                <mat-error *ngIf="consultationFormGroup.hasError('required', 'email')">
+                   {{ 'REQUIRED_ERROR' | translate }}
+                </mat-error>
+                <mat-error *ngIf="serverValidationForm.isServerValidationError('email')">
+                    {{ serverValidationForm.getServerValidationError('email') }}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="form__item">
+                <mat-label>{{'MESSAGE' | translate}}</mat-label>
+                <input matInput formControlName="message" maxlength="255">
+                <mat-hint align="end">
+                    {{consultationFormGroup.get('message').value?.length}} / 255
+                </mat-hint>
+                <mat-error *ngIf="consultationFormGroup.hasError('maxlength', 'message')">
+                  {{ 'MAX_LENGTH' | translate:{number: 255} }}
+                </mat-error>
+                <mat-error *ngIf="serverValidationForm.isServerValidationError('message')">
+                    {{ serverValidationForm.getServerValidationError('message') }}
+                </mat-error>
+            </mat-form-field>
+
+
+            <button
+              *ngIf="isRequestCompleted; else spinner"
+              (click)="sendMessage()"
+              mat-stroked-button
+              color="primary"
+              class="form__button"
+              [disabled]="!consultationFormGroup.valid"
+            >
+                {{'SEND_MESSAGE' | translate}}
+            </button>
+            <ng-template #spinner>
+                <app-progress-spinner></app-progress-spinner>
+            </ng-template>
+        </form>
+    </mat-dialog-content>
+</div>

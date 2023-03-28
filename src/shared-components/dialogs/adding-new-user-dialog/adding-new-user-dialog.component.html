@@ -1,0 +1,108 @@
+<div class="adding-new-user-dialog">
+    <p class="adding-new-user-dialog__title">
+        {{'FROM_FOR_ADDING_NEW_USER' | translate}}
+    </p>
+    <app-progress-spinner *ngIf="!roles"></app-progress-spinner>
+    <mat-dialog-content *ngIf="roles" class="adding-new-user-dialog__content content">
+        <form class="content__form form" [formGroup]="userFormGroup">
+            <mat-form-field class="form__item">
+                <mat-label>{{'NAME' | translate}}</mat-label>
+                <input required matInput formControlName="name" maxlength="100">
+                <mat-hint align="end">
+                    {{userFormGroup.get('name').value?.length}} / 100
+                </mat-hint>
+                <mat-error *ngIf="userFormGroup.hasError('required', 'name')">
+                    {{ 'REQUIRED_ERROR' | translate }}
+                </mat-error>
+                <mat-error *ngIf="userFormGroup.hasError('maxlength', 'name')">
+                  {{ 'MAX_LENGTH' | translate:{number: 100} }}
+                </mat-error>
+                <mat-error *ngIf="serverValidationForm.isServerValidationError('name')">
+                    {{ serverValidationForm.getServerValidationError('name') }}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="form__item">
+                <mat-label>{{'EMAIL' | translate}}</mat-label>
+                <input matInput formControlName="email" maxlength="100">
+                <mat-hint align="end">
+                    {{userFormGroup.get('email').value?.length}} / 100
+                </mat-hint>
+                <mat-error *ngIf="userFormGroup.hasError('email', 'email')">
+                    {{ 'EMAIL_ERROR' | translate }}
+                </mat-error>
+                <mat-error *ngIf="userFormGroup.hasError('maxlength', 'email')">
+                  {{ 'MAX_LENGTH' | translate:{number: 100} }}
+                </mat-error>
+                <mat-error *ngIf="userFormGroup.hasError('required', 'email')">
+                    {{ 'REQUIRED_ERROR' | translate }}
+                </mat-error>
+                <mat-error *ngIf="serverValidationForm.isServerValidationError('email')">
+                    {{ serverValidationForm.getServerValidationError('email') }}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="form__item">
+                <mat-label>{{'ROLES' | translate}}</mat-label>
+                <mat-select formControlName="user_roles_ids" multiple>
+                    <mat-select-trigger>
+                        {{getSelectTriggerRoleName()}}
+                        <span *ngIf="userFormGroup.get('user_roles_ids').value.length > 1">
+                            (+{{userFormGroup.get('user_roles_ids').value.length - 1}})
+                        </span>
+                    </mat-select-trigger>
+                    <mat-option *ngFor="let item of roles" [value]="item.id">
+                        {{item.name}}
+                    </mat-option>
+                    <mat-error *ngIf="userFormGroup.hasError('required', 'user_roles_ids')">
+                        {{ 'REQUIRED_ERROR' | translate }}
+                    </mat-error>
+                    <mat-error *ngIf="serverValidationForm.isServerValidationError('user_roles_ids')">
+                        {{ serverValidationForm.getServerValidationError('user_roles_ids') }}
+                    </mat-error>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="form__item">
+                <mat-label>{{'PASSWORD' | translate}}</mat-label>
+                <input required matInput formControlName="password" maxlength="30" type="password">
+                <mat-hint align="end">
+                    {{userFormGroup.get('password').value?.length}} / 30
+                </mat-hint>
+                <mat-error *ngIf="userFormGroup.hasError('required', 'password')">
+                    {{ 'REQUIRED_ERROR' | translate }}
+                </mat-error>
+                <mat-error *ngIf="userFormGroup.hasError('maxlength', 'password')">
+                  {{ 'MAX_LENGTH' | translate:{number: 30} }}
+                </mat-error>
+                <mat-error *ngIf="serverValidationForm.isServerValidationError('password')">
+                    {{ serverValidationForm.getServerValidationError('password') | translate }}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="form__item">
+                <mat-label>{{'CONFIRMATION_PASSWORD' | translate}}</mat-label>
+                <input required matInput formControlName="password_confirmation" maxlength="30" type="password">
+                <mat-hint align="end">
+                    {{userFormGroup.get('password_confirmation').value?.length}} / 30
+                </mat-hint>
+                <mat-error *ngIf="userFormGroup.hasError('maxlength', 'password_confirmation')">
+                  {{ 'MAX_LENGTH' | translate:{number: 30} }}
+                </mat-error>
+                <mat-error *ngIf="userFormGroup.hasError('notSame', 'password_confirmation')">
+                    {{'PASSWORDS_DO_NOT_MATCH' | translate}}
+                </mat-error>
+            </mat-form-field>
+
+            <button
+              *ngIf="isRequestCompleted(); else spinner"
+              (click)="addNewUser()"
+              mat-stroked-button
+              color="primary"
+              class="form__button"
+              [disabled]="!userFormGroup.valid"
+            >
+                {{'ADD_NEW_USER' | translate}}
+            </button>
+            <ng-template #spinner>
+                <app-progress-spinner></app-progress-spinner>
+            </ng-template>
+        </form>
+    </mat-dialog-content>
+</div>

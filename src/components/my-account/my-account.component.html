@@ -1,0 +1,53 @@
+<div class="personal-information">
+  <app-progress-spinner class="spinner" [diameter]="200" *ngIf="!userData"></app-progress-spinner>
+  <div *ngIf="userData" class="personal-information__container container">
+    <div class="container__header--wrapper">
+      <h2 class="container__header">
+        {{'MY_ACCOUNT' | translate}}
+      </h2>
+    </div>
+    <div class="container__content content">
+      <div class="content__first-section first-section">
+        <p class="first-section__email">
+          {{'MY_EMAIL' | translate}}: {{userData.email}}
+        </p>
+        <form class="first-section__form form" [formGroup]="personalForm">
+          <fieldset class="form__fieldset" [disabled]="!isUserServiceUpdateRequestCompleted()">
+            <mat-form-field class="form__item">
+              <mat-label>{{'MY_NAME' | translate}}</mat-label>
+              <input required matInput formControlName="name" maxlength="100">
+              <mat-hint align="end">
+                {{personalForm.get('name').value?.length}} / 100
+              </mat-hint>
+              <mat-error *ngIf="personalForm.hasError('required', 'name')">
+                {{ 'REQUIRED_ERROR' | translate }}
+              </mat-error>
+              <mat-error *ngIf="serverValidationForm.isServerValidationError('name')">
+                {{ serverValidationForm.getServerValidationError('name') }}
+              </mat-error>
+            </mat-form-field>
+            <div class="form__btn--wrapper">
+              <button (click)="updateUserData()" color="primary" mat-stroked-button
+                [class]="{'form__btn': true, 'form__btn--dirty': personalForm.dirty,
+                'form__btn--hidden' : !isUserServiceUpdateRequestCompleted()}">
+                <span>{{'SAVE' | translate}}</span>
+              </button>
+              <app-progress-spinner *ngIf="!isUserServiceUpdateRequestCompleted()">
+              </app-progress-spinner>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div class="content__second-section second-section">
+        <p class="second-section__support">
+          {{'SUPPORT_EMAIL' | translate}}: info.rushapp@gmail.com
+        </p>
+        <div class="second-section__btn-wrapper btn-wrapper">
+          <button (click)="openChangePasswordDialog()" color="primary" mat-stroked-button class="btn-wrapper__btn">
+            <span>{{'CHANGE_PASSWORD' | translate}}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
