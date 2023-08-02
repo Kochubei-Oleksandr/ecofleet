@@ -15,6 +15,7 @@ import {RegistrationComponent} from "../components/auth/registration/registratio
 import {
   ChangeForgottenPasswordComponent
 } from "../components/auth/change-forgotten-password/change-forgotten-password.component";
+import {MapComponent} from "../components/map/map.component";
 
 const routes: Routes = [
   {
@@ -40,6 +41,11 @@ const routes: Routes = [
   {
     path: ROUTING_NAMES.my_account,
     component: MyAccountComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: ROUTING_NAMES.map,
+    component: MapComponent,
     canActivate: [AuthGuard],
   },
   {

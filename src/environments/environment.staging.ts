@@ -9,5 +9,7 @@ export const environment: IEnvironment = {
     ru: 'ru',
   },
   defaultLanguage: 'en',
-  metaTagImage: 'storage/logo.png'
+  metaTagImage: 'storage/logo.png',
+  ecofleetApiEndpoint: 'https://app.ecofleet.com/seeme/Api/'
+
 };

@@ -39,6 +39,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/leaflet/dist/leaflet.css",
               "src/scss/_index.scss"
             ],
             "stylePreprocessorOptions": {
@@ -146,6 +147,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/leaflet/dist/leaflet.css",
               "src/scss/_index.scss"
             ],
             "stylePreprocessorOptions": {

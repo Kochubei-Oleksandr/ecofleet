@@ -4,6 +4,7 @@ export interface IRoutingName {
   registration: string;
   change_forgotten_password: string;
   my_account: string;
+  map: string;
   settings: string;
   theme_settings: string;
   fr_theme_settings: string;

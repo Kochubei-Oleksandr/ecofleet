@@ -7,6 +7,7 @@ const MAIN_ROUTES = {
   change_forgotten_password: 'change-forgotten-password',
   my_account: 'my-account',
   settings: 'settings',
+  map: 'map',
 };
 
 const CHILD_ROUTES = {

@@ -17,10 +17,12 @@ import {RolesComponent} from "../components/settings/users-and-roles/roles/roles
 import {UsersAndRolesComponent} from "../components/settings/users-and-roles/users-and-roles.component";
 import {AccessLevelControlComponent} from "../components/settings/users-and-roles/access-level-control/access-level-control.component";
 import {AppThemeSettingsComponent} from "../components/settings/theme-settings/app-theme-settings.component";
+import {MapComponent} from "../components/map/map.component";
 // SHARED_SERVICES
 import {I18nModule} from "../shared/ssr-services/i18n/i18n.module";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {HeaderRequestInterceptor, PaginatorTranslationsService, TokenInterceptor} from "rushapp-angular-core";
+import {AuthInterceptor} from "../shared/interceptors/auth.interceptor";
 // SHARED_COMPONENTS
 import {CookiesPanelComponent} from "../shared-components/cookies-panel/cookies-panel.component";
 import {LanguageSwitchingComponent} from "../shared-components/language-switching/language-switching.component";
@@ -81,7 +83,8 @@ const MAIN_COMPONENTS = [
   UsersComponent,
   AccessLevelControlComponent,
   UsersAndRolesComponent,
-  AppThemeSettingsComponent
+  AppThemeSettingsComponent,
+  MapComponent
 ];
 const SHARED_COMPONENTS = [
   CookiesPanelComponent,
@@ -100,7 +103,7 @@ const SHARED_COMPONENTS = [
 const SHARED_SERVICES = [
   {
     provide: HTTP_INTERCEPTORS,
-    useClass: TokenInterceptor,
+    useClass: AuthInterceptor,
     multi : true
   },
   {
@@ -161,6 +164,7 @@ const ANGULAR_MATERIAL_MODULES = [
     {provide: 'defaultLanguage', useValue: environment.defaultLanguage},
     {provide: 'languages', useValue: environment.languages},
     {provide: 'apiEndpoint', useValue: environment.apiEndpoint},
+    {provide: 'mapApiEndpoint', useValue: environment.apiEndpoint},
     {provide: 'metaTagImage', useValue: environment.metaTagImage},
     { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS },
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },

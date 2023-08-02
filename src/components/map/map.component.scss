@@ -1,0 +1,152 @@
+@import 'abstracts/constants';
+
+.map {
+  width: 100%;
+  max-width: $container-max-width;
+  margin: 0 auto;
+  &__container {
+    margin: 0 $margin-content $margin-main;
+    .container {
+      &__spinner {
+        width: 50px;
+        height: 50px;
+      }
+      &__api-field-form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .api-field-form {
+          &__field {
+            margin: $margin-content;
+          }
+          &__btn {
+            &--wrapper {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              position: relative;
+              margin: $margin-content;
+            }
+            &--hidden {
+              visibility: hidden;
+            }
+            max-height: 40px;
+            width: 100%;
+          }
+        }
+      }
+      &__content {
+        display: flex;
+        .content {
+          &__vehicles-info {
+            .vehicles-info {
+              &__table-wrapper {
+                max-height: 1000px;
+                overflow: auto;
+                max-width: calc($container-max-width / 2);
+                .table-wrapper {
+                  &__table {
+                    width: 100%;
+                    .table {
+                      &__wrapper {
+                        width: 100%;
+                      }
+                      &__th {
+                        font-weight: bold;
+                        &--italic {
+                          font-style: italic;
+                        }
+                      }
+                      &__td {
+                        @media screen and (max-width: $mobile-size-screen) {
+                          border-bottom: 1px dotted $border-color;
+                        }
+                      }
+                      &__th--small, &__td--small {
+                        @media screen and (min-width: $mobile-size-screen) {
+                          max-width: 70px;
+                        }
+                      }
+                      &__th--middle, &__td--middle {
+                        @media screen and (min-width: $mobile-size-screen) {
+                          max-width: 200px;
+                        }
+                      }
+                      &__element-row {
+                        cursor: pointer;
+                      }
+                      &__mobile-label {
+                        display: none;
+                        width: 100%;
+                        @media screen and (max-width: $mobile-size-screen) {
+                          display: inline-block;
+                          font-weight: 500;
+                          margin-right: $margin-content;
+                          max-width: 150px;
+                        }
+                        @media screen and (max-width: $mobile-size-small-screen) {
+                          max-width: 100px;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              &__details {
+                margin: $margin-content 0;
+                .details {
+                  &__data-form-group {
+                    display: flex;
+                    .data-form-group {
+                      &__item {
+                        margin-right: $margin-content;
+                      }
+                      &__btn {
+                        &--wrapper {
+                          display: flex;
+                          justify-content: center;
+                          align-items: center;
+                          position: relative;
+                          margin: $margin-content;
+                        }
+                        &--hidden {
+                          visibility: hidden;
+                        }
+                        max-height: 40px;
+                        width: 100%;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          &__map-wrapper {
+            max-width: $container-middle-width;
+            width: 100%;
+            height: 450px;
+            .map-wrapper {
+              &__map {
+                height: 100%;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .mat-form-field-wrapper {
+    width: 300px;
+  }
+  .mat-mdc-row.highlighted {
+    background-color: $light-text-darker;
+  }
+  @media screen and (max-width: 750px) {
+    .container__content {
+      flex-direction: column;
+    }
+    .content__map-wrapper {
+      order: 2;
+    }
+  }
+}

@@ -133,6 +133,21 @@
   "LANDING_FEATURE_NAME_6": "Response management",
   "LANDING_FEATURE_DESCRIPTION_6": "Ability to manage responses from the frontend: available paginate, where, limit, with, offset, etc",
   "ALL_RIGHTS_RESERVED": "all rights reserved",
-  "MADE_IN_ESTONIA": "Developed in Estonia"
+  "MADE_IN_ESTONIA": "Developed in Estonia",
 
+  "__map__": "",
+  "MAP": "Map",
+  "API_KEY": "API key",
+  "GO": "Go",
+  "DRIVER_NAME": "Name",
+  "SPEED": "Speed",
+  "KM_H": "km/h",
+  "LAST_UPDATE": "Last update",
+  "DATE": "Date",
+  "TOTAL_DISTANCE": "Total distance",
+  "NUMBER_OF_STOPS": "Number of stops",
+  "SHORTEST_POSSIBLE_DISTANCES": "Shortest possible distance",
+  "KM": "Km",
+  "API_KEY_ERROR": "Api key error",
+  "YOU_NEED_SELECT_VEHICLE_AND_DATE": "You need select vehicle and date"
 }

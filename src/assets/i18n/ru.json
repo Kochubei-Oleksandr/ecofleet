@@ -133,5 +133,21 @@
   "LANDING_FEATURE_NAME_6": "Управление ответами",
   "LANDING_FEATURE_DESCRIPTION_6": "Возможность управлять ответами напрямую из сайта. Доступно: paginate, where, limit, with, offset, etc. и т.д",
   "ALL_RIGHTS_RESERVED": "все права защищены",
-  "MADE_IN_ESTONIA": "Разработано в Эстонии"
+  "MADE_IN_ESTONIA": "Разработано в Эстонии",
+
+  "__map__": "",
+  "MAP": "Карта",
+  "API_KEY": "Ключ API",
+  "GO": "Перейти",
+  "DRIVER_NAME": "Имя",
+  "SPEED": "Скорость",
+  "KM_H": "км/ч",
+  "LAST_UPDATE": "Последнее обновление",
+  "DATE": "Дата",
+  "TOTAL_DISTANCE": "Общее расстояние",
+  "NUMBER_OF_STOPS": "Количество остановок",
+  "SHORTEST_POSSIBLE_DISTANCES": "Кратчайшие возможные расстояния",
+  "KM": "км",
+  "API_KEY_ERROR": "Ошибка ключа API",
+  "YOU_NEED_SELECT_VEHICLE_AND_DATE": "Вам необходимо выбрать транспортное средство и дату"
 }

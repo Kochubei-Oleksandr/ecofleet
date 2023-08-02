@@ -8,6 +8,11 @@ export const SIDENAV_ITEMS: ISidenavItem[] = [
     route: ROUTING_NAMES.my_account,
   },
   {
+    displayName: 'MAP',
+    iconName: 'map',
+    route: ROUTING_NAMES.map,
+  },
+  {
     displayName: 'SETTINGS',
     iconName: 'settings',
     children: [

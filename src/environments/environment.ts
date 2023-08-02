@@ -10,4 +10,5 @@ export const environment: IEnvironment = {
   },
   defaultLanguage: 'en',
   metaTagImage: 'storage/logo.png',
+  ecofleetApiEndpoint: 'https://app.ecofleet.com/seeme/Api/'
 };

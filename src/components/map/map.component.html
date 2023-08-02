@@ -1,0 +1,107 @@
+<div class="map">
+  <div class="map__container container">
+    <form class="container__api-field-form api-field-form" [formGroup]="apiKeyFormGroup">
+      <mat-form-field class="api-field-form__field">
+        <mat-label>{{'API_KEY' | translate}}</mat-label>
+        <input required matInput formControlName="api_key">
+        <mat-error *ngIf="apiKeyFormGroup.hasError('required', 'api_key')">
+          {{ 'REQUIRED_ERROR' | translate }}
+        </mat-error>
+      </mat-form-field>
+      <div class="api-field-form__btn--wrapper">
+        <button
+          *ngIf="isGetVehicleRequestCompleted()"
+          (click)="getVehicles()"
+          mat-stroked-button
+          color="primary"
+          [class]="{'api-field-form__btn': true,'api-field-form__btn--hidden' : !isGetVehicleRequestCompleted()}"
+          [disabled]="!apiKeyFormGroup.valid"
+        >
+          {{'GO' | translate}}
+        </button>
+        <app-progress-spinner [diameter]="40" class="container__spinner" *ngIf="!isGetVehicleRequestCompleted()">
+        </app-progress-spinner>
+      </div>
+    </form>
+    <div class="container__content content">
+      <div *ngIf="vehicles && vehicles.length > 0" class="content__vehicles-info vehicles-info">
+        <div class="vehicles-info__table-wrapper table-wrapper">
+          <mat-table tabindex="0" class="table-wrapper__table table" [dataSource]="vehicleInfoTableDataSource">
+            <mat-header-row *matHeaderRowDef="vehicleInfoColumns; sticky: true"></mat-header-row>
+            <mat-row
+              class="table__element-row"
+              *matRowDef="let row; let i = index; columns: vehicleInfoColumns;"
+              [ngClass]="{ 'highlighted': selectedRowIndexInTable === i }"
+              (click)="selectVehicle(row, i)">
+            </mat-row>
+            <ng-container matColumnDef="driverName">
+              <mat-header-cell mat-header class="table__th table__td--middle" *matHeaderCellDef>
+                {{'DRIVER_NAME' | translate}}
+              </mat-header-cell>
+              <mat-cell class="table__td table__td--middle" *matCellDef="let row">
+                <span class="table__mobile-label">{{'DRIVER_NAME' | translate}}:</span>
+                {{row.driverName}}
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="speed">
+              <mat-header-cell mat-header class="table__th table__th--small" *matHeaderCellDef>
+                {{'SPEED' | translate}}
+              </mat-header-cell>
+              <mat-cell class="table__td table__td--small" *matCellDef="let row">
+                <span class="table__mobile-label">{{'SPEED' | translate}}:</span>
+                {{row.speed}} {{'KM_H' | translate}}
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="lastUpdate">
+              <mat-header-cell mat-header class="table__th table__td--middle" *matHeaderCellDef>
+                {{'LAST_UPDATE' | translate}}
+              </mat-header-cell>
+              <mat-cell class="table__td table__td--middle" *matCellDef="let row">
+                <span class="table__mobile-label">{{'LAST_UPDATE' | translate}}:</span>
+                {{timeDifferenceDisplay(row.timestamp)}}
+              </mat-cell>
+            </ng-container>
+          </mat-table>
+        </div>
+        <div *ngIf="selectedVehicle" class="vehicles-info__details details">
+          <form class="details__data-form-group data-form-group" [formGroup]="dateFormGroup">
+            <mat-form-field class="data-form-group__item" appearance="fill">
+              <mat-label>{{'DATE' | translate}}</mat-label>
+              <input formControlName="selected_date" matInput [matDatepicker]="date">
+              <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+              <mat-datepicker #date></mat-datepicker>
+            </mat-form-field>
+            <div class="data-form-group__btn--wrapper">
+              <button
+                *ngIf="isVehicleInfoRequestCompleted()"
+                (click)="getVehicleInfo()"
+                mat-stroked-button
+                color="primary"
+                [class]="{'data-form-group__btn': true,'data-form-group__btn--hidden' : !isVehicleInfoRequestCompleted()}"
+                [disabled]="!dateFormGroup.valid"
+              >
+                {{'GO' | translate}}
+              </button>
+              <app-progress-spinner [diameter]="40" class="container__spinner" *ngIf="!isVehicleInfoRequestCompleted()">
+              </app-progress-spinner>
+            </div>
+          </form>
+          <div *ngIf="vehicleInfo" class="details__items item">
+            <p class="item__text">
+              {{'TOTAL_DISTANCE' | translate}}: {{totalDistanceOfSelectedVehicle}} {{'KM' | translate}};
+            </p>
+            <p class="item__text">
+              {{'NUMBER_OF_STOPS' | translate}}: {{numberOfStopsOfSelectedVehicle}};
+            </p>
+            <p class="item__text">
+              {{'SHORTEST_POSSIBLE_DISTANCES' | translate}}: {{shortestPossibleDistanceOfSelectedVehicle}} {{'KM' | translate}};
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="content__map-wrapper map-wrapper">
+        <div class="map-wrapper__map" id="map"></div>
+      </div>
+    </div>
+  </div>
+</div>
